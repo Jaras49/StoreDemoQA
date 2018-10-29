@@ -2,6 +2,7 @@ package com.store.page.menu;
 
 import com.store.factory.PageObjectFactory;
 import com.store.page.WebElementManipulator;
+import com.store.page.cart.CartPage;
 import com.store.page.category.CategoryPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,6 +28,9 @@ public class MenuPage extends WebElementManipulator<MenuPage> {
     @FindBy(css = "#menu-item-35")
     private WebElement iMacsCategoryButton;
 
+    @FindBy(css = "#header_cart")
+    private WebElement cart;
+
     public MenuPage(WebDriver driver, WebDriverWait wait, Actions actions) {
         super(driver, wait, actions);
         PageFactory.initElements(driver, this);
@@ -41,6 +45,11 @@ public class MenuPage extends WebElementManipulator<MenuPage> {
         hoverOverElement(productCategoryButton)
                 .clickElement(accessoriesCategoryButton);
         return PageObjectFactory.createCategoryPage(driver);
+    }
+
+    public CartPage goToCartPage() {
+        clickElement(cart);
+        return PageObjectFactory.createCartPage(driver);
     }
 
     public CategoryPage goToRandomCategory() {

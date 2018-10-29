@@ -1,5 +1,6 @@
 package com.store.factory;
 
+import com.store.page.cart.CartPage;
 import com.store.page.category.CategoryPage;
 import com.store.page.category.product.ProductPage;
 import com.store.page.menu.MenuPage;
@@ -18,6 +19,11 @@ public final class PageObjectFactory {
 
     public static CategoryPage createCategoryPage(WebDriver driver) {
         return new CategoryPage
+                (driver, new WebDriverWait(driver, DEFAULT_WAIT), new Actions(driver), createMenuPage(driver));
+    }
+
+    public static CartPage createCartPage(WebDriver driver) {
+        return new CartPage
                 (driver, new WebDriverWait(driver, DEFAULT_WAIT), new Actions(driver), createMenuPage(driver));
     }
 
