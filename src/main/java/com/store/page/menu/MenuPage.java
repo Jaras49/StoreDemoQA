@@ -1,5 +1,6 @@
 package com.store.page.menu;
 
+import com.store.factory.PageObjectFactory;
 import com.store.page.WebElementManipulator;
 import com.store.page.category.CategoryPage;
 import org.openqa.selenium.WebDriver;
@@ -10,6 +11,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MenuPage extends WebElementManipulator<MenuPage> {
 
@@ -38,6 +40,14 @@ public class MenuPage extends WebElementManipulator<MenuPage> {
     public CategoryPage goToAccessoriesCategory() {
         hoverOverElement(productCategoryButton)
                 .clickElement(accessoriesCategoryButton);
-        return new CategoryPage(driver, new WebDriverWait(driver, 15), new Actions(driver));
+        return PageObjectFactory.createCategoryPage(driver);
+    }
+
+    public CategoryPage goToRandomCategory() {
+        int size = productCategories.size();
+        int random = ThreadLocalRandom.current().nextInt(0, size);
+        hoverOverElement(productCategoryButton)
+                .clickElement(productCategories.get(random));
+        return PageObjectFactory.createCategoryPage(driver);
     }
 }
