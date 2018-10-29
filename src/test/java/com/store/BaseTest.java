@@ -2,10 +2,12 @@ package com.store;
 
 import com.factory.driver.DriverFactory;
 import com.factory.driver.DriverType;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 
+import java.util.concurrent.TimeUnit;
+//TODO delete implicity wait
 public abstract class BaseTest {
 
     private static final String DRIVER_NAME = "chromedriver.exe";
@@ -13,15 +15,16 @@ public abstract class BaseTest {
 
     protected WebDriver driver;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         driver = DriverFactory.getDriver(DriverType.CHROME);
 
         driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.get(STORE_URL);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         driver.quit();
         System.clearProperty("webdriver.chrome.driver");
