@@ -2,6 +2,7 @@ package com.store.factory;
 
 import com.store.page.cart.CartPage;
 import com.store.page.cart.checkout.CheckoutPage;
+import com.store.page.cart.summary.TransactionSummaryPage;
 import com.store.page.category.CategoryPage;
 import com.store.page.category.product.ProductPage;
 import com.store.page.menu.MenuPage;
@@ -15,6 +16,11 @@ public final class PageObjectFactory {
     }
 
     private static final long DEFAULT_WAIT = 15;
+
+    public static TransactionSummaryPage createTransactionSummaryPage(WebDriver driver) {
+        return new TransactionSummaryPage
+                (driver, new WebDriverWait(driver, DEFAULT_WAIT), new Actions(driver), createMenuPage(driver));
+    }
 
     public static ProductPage createProductPage(WebDriver driver) {
         return new ProductPage

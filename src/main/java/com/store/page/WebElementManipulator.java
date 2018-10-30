@@ -12,7 +12,6 @@ public abstract class WebElementManipulator<T extends WebElementManipulator> ext
 
     private static Logger LOG = Logger.getLogger(WebElementManipulator.class.getName());
 
-
     protected WebElementManipulator(WebDriver driver, WebDriverWait wait, Actions actions) {
         super(driver, wait, actions);
     }
