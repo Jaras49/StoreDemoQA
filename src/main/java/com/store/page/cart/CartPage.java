@@ -1,8 +1,10 @@
 package com.store.page.cart;
 
+import com.store.factory.PageObjectFactory;
 import com.store.model.Order;
 import com.store.model.Product;
 import com.store.page.WebElementManipulator;
+import com.store.page.cart.checkout.CheckoutPage;
 import com.store.page.menu.MenuPage;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
@@ -22,9 +24,9 @@ import java.util.stream.Collectors;
 public class CartPage extends WebElementManipulator<CartPage> {
 
     private static final String PRODUCT_QUANTITY_SELECTOR = ".wpsc_product_quantity input[name='quantity']";
-    private static final String PRODUCT_PRICE_SELECTOR = ".wpsc_product_quantity + td .pricedisplay";
-    private static final String PRODUCT_NAME_SELECTOR = ".wpsc_product_name a";
-    private static final String PRODUCT_TOTAL_PRICE_SELECTOR = ".wpsc_product_price .pricedisplay .pricedisplay";
+    private static final String PRODUCT_PRICE_SELECTOR = ".wpsc_product_quantity + td";
+    private static final String PRODUCT_NAME_SELECTOR = ".wpsc_product_name";
+    private static final String PRODUCT_TOTAL_PRICE_SELECTOR = ".wpsc_product_price";
 
     private MenuPage menu;
 
@@ -33,6 +35,9 @@ public class CartPage extends WebElementManipulator<CartPage> {
 
     @FindBy(css = ".checkout_cart tr.product_row")
     private List<WebElement> products;
+
+    @FindBy(css = ".step2")
+    private WebElement continueButton;
 
     public CartPage(WebDriver driver, WebDriverWait wait, Actions actions, MenuPage menuPage) {
         super(driver, wait, actions);
@@ -43,6 +48,11 @@ public class CartPage extends WebElementManipulator<CartPage> {
     @Override
     protected CartPage getThis() {
         return this;
+    }
+
+    public CheckoutPage clickContinueButton() {
+        clickElement(continueButton);
+        return PageObjectFactory.createCheckoutPage(driver);
     }
 
     public CartPage assertProductTotalPrices() {

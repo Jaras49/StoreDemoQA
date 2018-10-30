@@ -8,7 +8,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 
-import java.util.concurrent.TimeUnit;
 //TODO delete implicity wait
 public abstract class BaseTest {
 
@@ -23,7 +22,7 @@ public abstract class BaseTest {
         driver = DriverFactory.getDriver(DriverType.CHROME);
 
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        //driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.get(STORE_URL);
 
         menu = PageObjectFactory.createMenuPage(driver);
