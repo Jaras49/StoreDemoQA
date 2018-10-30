@@ -3,7 +3,9 @@ package com.store.model;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public final class Product {
+public final class Product implements Comparable<Product> {
+
+    private static final String REPLACE_ALL_DASHES_REGEX = "\\p{Pd}";
 
     private final String productName;
     private final BigDecimal price;
@@ -26,7 +28,10 @@ public final class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(productName, product.productName) &&
+
+        return Objects.equals(
+                productName.replaceAll(REPLACE_ALL_DASHES_REGEX, ""),
+                product.productName.replaceAll(REPLACE_ALL_DASHES_REGEX, "")) &&
                 Objects.equals(price, product.price);
     }
 
@@ -41,5 +46,10 @@ public final class Product {
                 "productName='" + productName + '\'' +
                 ", price=" + price +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Product o) {
+        return this.productName.compareToIgnoreCase(o.getProductName());
     }
 }
