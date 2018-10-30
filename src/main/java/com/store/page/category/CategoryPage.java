@@ -4,7 +4,6 @@ import com.store.factory.PageObjectFactory;
 import com.store.page.WebElementManipulator;
 import com.store.page.category.product.ProductPage;
 import com.store.page.menu.MenuPage;
-import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -16,6 +15,8 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class CategoryPage extends WebElementManipulator<CategoryPage> {
+
+    private static final String REAMOVE_DASHES_REGEX = "\\p{Pd}";
 
     private MenuPage menu;
 
@@ -38,11 +39,12 @@ public class CategoryPage extends WebElementManipulator<CategoryPage> {
         int random = ThreadLocalRandom.current().nextInt(0, size);
 
         WebElement element = products.get(random);
-        String productName = element.getText();
+        String productName = element.getText().replaceAll(REAMOVE_DASHES_REGEX, "");
+
         clickElement(element);
         ProductPage productPage = PageObjectFactory.createProductPage(driver);
-        Assertions.assertEquals(productName, productPage.getProductName());
 
+        assertEquals(productName, productPage.getProductName());
         return productPage;
     }
 

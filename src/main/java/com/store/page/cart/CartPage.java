@@ -6,7 +6,6 @@ import com.store.model.Product;
 import com.store.page.WebElementManipulator;
 import com.store.page.cart.checkout.CheckoutPage;
 import com.store.page.menu.MenuPage;
-import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,6 +22,7 @@ import java.util.stream.Collectors;
 
 public class CartPage extends WebElementManipulator<CartPage> {
 
+    private static final String REMOVE_DASHES_REGEX = "\\p{Pd}";
     private static final String PRODUCT_QUANTITY_SELECTOR = ".wpsc_product_quantity input[name='quantity']";
     private static final String PRODUCT_PRICE_SELECTOR = ".wpsc_product_quantity + td";
     private static final String PRODUCT_NAME_SELECTOR = ".wpsc_product_name";
@@ -50,22 +50,41 @@ public class CartPage extends WebElementManipulator<CartPage> {
         return this;
     }
 
+    public MenuPage getMenu() {
+        return menu;
+    }
+
     public CheckoutPage clickContinueButton() {
         clickElement(continueButton);
         return PageObjectFactory.createCheckoutPage(driver);
     }
+    public CartPage assertCart(Order expectedOrder) {
+        Order actualOrder = mapTableRowsToObjects();
+        return assertEquals(expectedOrder, actualOrder)
+                .assertProductTotalPrices()
+                .assertEquals(expectedOrder.getOrderPrice(), getTotalPrice());
+    }
 
-    public CartPage assertProductTotalPrices() {
+    private CartPage assertProductTotalPrices() {
         products.stream()
                 .forEach(product -> {
                     int productQuantity = getProductQuantity(product);
                     BigDecimal productPrice = getProductPrice(product);
-                    Assertions.assertEquals(productPrice.multiply(BigDecimal.valueOf(productQuantity)), getProductTotalPrice(product));
+                    assertEquals(productPrice.multiply(BigDecimal.valueOf(productQuantity)), getProductTotalPrice(product));
                 });
         return this;
     }
 
-    public Order mapTableRowsToObjects() {
+    private BigDecimal getTotalPrice() {
+        return new BigDecimal(totalCartPrice.getText().replaceAll("[$,]", ""));
+    }
+
+    private BigDecimal getProductTotalPrice(WebElement product) {
+        return new BigDecimal
+                (product.findElement(By.cssSelector(PRODUCT_TOTAL_PRICE_SELECTOR)).getText().replaceAll("[$,]", ""));
+    }
+
+    private Order mapTableRowsToObjects() {
         return new Order(products.stream()
                 .map(product -> {
                     String productName = getProductName(product);
@@ -82,15 +101,6 @@ public class CartPage extends WebElementManipulator<CartPage> {
                 .collect(Collectors.toList()));
     }
 
-    public BigDecimal getTotalPrice() {
-        return new BigDecimal(totalCartPrice.getText().replaceAll("[$,]", ""));
-    }
-
-    public BigDecimal getProductTotalPrice(WebElement product) {
-        return new BigDecimal
-                (product.findElement(By.cssSelector(PRODUCT_TOTAL_PRICE_SELECTOR)).getText().replaceAll("[$,]", ""));
-    }
-
     private int getProductQuantity(WebElement product) {
         String quantityString = product.findElement(By.cssSelector(PRODUCT_QUANTITY_SELECTOR)).getAttribute("value");
         return Integer.parseInt(quantityString);
@@ -102,10 +112,6 @@ public class CartPage extends WebElementManipulator<CartPage> {
     }
 
     private String getProductName(WebElement product) {
-        return product.findElement(By.cssSelector(PRODUCT_NAME_SELECTOR)).getText();
-    }
-
-    public MenuPage getMenu() {
-        return menu;
+        return product.findElement(By.cssSelector(PRODUCT_NAME_SELECTOR)).getText().replaceAll(REMOVE_DASHES_REGEX, "");
     }
 }

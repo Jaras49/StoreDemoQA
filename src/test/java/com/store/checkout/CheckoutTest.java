@@ -5,7 +5,6 @@ import com.store.model.Order;
 import com.store.model.Product;
 import com.store.page.cart.CartPage;
 import com.store.page.category.product.ProductPage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -23,13 +22,13 @@ public class CheckoutTest extends BaseTest {
             dooo();
         }
         CartPage cartPage = menu.goToCartPage()
-                .assertProductTotalPrices();
+                .assertCart(order);
 
-        Order cartOrder = new Order(
-                cartPage.mapTableRowsToObjects().getProducts());
+        //Order cartOrder = new Order(
+        //        cartPage.mapTableRowsToObjects().getProducts());
 
-        Assertions.assertTrue(order.getProducts().containsAll(cartOrder.getProducts()) && cartOrder.getProducts().containsAll(order.getProducts()));
-        Assertions.assertEquals(order.getOrderPrice(), cartPage.getTotalPrice());
+        //Assertions.assertEquals(cartOrder, order);
+        //Assertions.assertTrue(order.getProducts().containsAll(cartOrder.getProducts()) && cartOrder.getProducts().containsAll(order.getProducts()));
 
         cartPage.clickContinueButton();
     }

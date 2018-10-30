@@ -5,14 +5,21 @@ import java.util.Objects;
 
 public final class Product implements Comparable<Product> {
 
-    private static final String REPLACE_ALL_DASHES_REGEX = "\\p{Pd}";
-
     private final String productName;
     private final BigDecimal price;
+    private int quantity;
+    private BigDecimal totalPrice;
 
     public Product(String productName, BigDecimal price) {
         this.productName = productName;
         this.price = price;
+        quantity++;
+        totalPrice = price.add(BigDecimal.ZERO);
+    }
+
+    void addProduct() {
+        quantity++;
+        totalPrice = totalPrice.add(price);
     }
 
     public String getProductName() {
@@ -23,21 +30,24 @@ public final class Product implements Comparable<Product> {
         return price;
     }
 
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-
-        return Objects.equals(
-                productName.replaceAll(REPLACE_ALL_DASHES_REGEX, ""),
-                product.productName.replaceAll(REPLACE_ALL_DASHES_REGEX, "")) &&
-                Objects.equals(price, product.price);
+        return quantity == product.quantity &&
+                Objects.equals(productName, product.productName) &&
+                Objects.equals(price, product.price) &&
+                Objects.equals(totalPrice, product.totalPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productName, price);
+        return Objects.hash(productName, price, quantity, totalPrice);
     }
 
     @Override
@@ -45,6 +55,8 @@ public final class Product implements Comparable<Product> {
         return "Product{" +
                 "productName='" + productName + '\'' +
                 ", price=" + price +
+                ", quantity=" + quantity +
+                ", totalPrice=" + totalPrice +
                 '}';
     }
 

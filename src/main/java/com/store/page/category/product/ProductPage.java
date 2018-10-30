@@ -13,6 +13,8 @@ import java.math.BigDecimal;
 
 public class ProductPage extends WebElementManipulator<ProductPage> {
 
+    private static final String REMOVE_DASHES_REGEX = "\\p{Pd}";
+
     private MenuPage menu;
 
     @FindBy(css = ".prodtitle")
@@ -48,16 +50,12 @@ public class ProductPage extends WebElementManipulator<ProductPage> {
         return this;
     }
 
-    public int getNumberOfCartItems() {
-        return Integer.parseInt(numberOfCartItems.getText());
-    }
-
     public String getProductName() {
-        return productTitle.getText();
+        return productTitle.getText().replaceAll(REMOVE_DASHES_REGEX, "");
     }
 
     public BigDecimal getProductPrice() {
-        String productPriceString = this.productPrice.getText().replace("$", "");
+        String productPriceString = this.productPrice.getText().replaceAll("[$,]", "");
         return new BigDecimal(productPriceString);
     }
 
@@ -65,14 +63,18 @@ public class ProductPage extends WebElementManipulator<ProductPage> {
         return menu;
     }
 
-    private ProductPage addProduct() {
-        return clickElementAndWaitToBeVisible(addToCartButton, productAddedAlert)
+    private void addProduct() {
+        clickElementAndWaitToBeVisible(addToCartButton, productAddedAlert)
                 .waitForElementTextUpdate(numberOfCartItems, expectedCartText());
     }
 
     private String expectedCartText() {
-        int currentCartProducts = Integer.parseInt(numberOfCartItems.getText());
+        int currentCartProducts = getNumberOfCartItems();
         int expectedCartProducts = currentCartProducts + 1;
         return String.valueOf(expectedCartProducts);
+    }
+
+    private int getNumberOfCartItems() {
+        return Integer.parseInt(numberOfCartItems.getText());
     }
 }
