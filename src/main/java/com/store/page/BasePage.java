@@ -22,7 +22,7 @@ public abstract class BasePage<T extends BasePage> {
     protected abstract T getThis();
 
     public <M> T assertEquals(M expected, M actual) {
-        Assertions.assertEquals(expected,actual );
+        Assertions.assertEquals(expected, actual);
         return getThis();
     }
 
@@ -38,6 +38,10 @@ public abstract class BasePage<T extends BasePage> {
 
     protected WebElement waitForElementToBeVisible(WebElement element) {
         return wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    protected void waitForElementToBeInvisible(WebElement element) {
+        wait.until(ExpectedConditions.invisibilityOf(element));
     }
 
     protected T waitForElementTextUpdate(WebElement element, String textToBe) {
