@@ -44,8 +44,9 @@ public final class Order {
         return shippingPrice;
     }
 
-    public void setShippingPrice(BigDecimal shippingPrice) {
+    public Order setShippingPrice(BigDecimal shippingPrice) {
         this.shippingPrice = shippingPrice;
+        return this;
     }
 
     private Optional<Product> is(String name) {
@@ -59,18 +60,20 @@ public final class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(products, order.products);
+        return Objects.equals(products, order.products) &&
+                Objects.equals(shippingPrice, order.shippingPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(products);
+        return Objects.hash(products, shippingPrice);
     }
 
     @Override
     public String toString() {
         return "Order{" +
                 "products=" + products +
+                ", shippingPrice=" + shippingPrice +
                 '}';
     }
 }

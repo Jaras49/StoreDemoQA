@@ -1,52 +1,53 @@
 package com.store.checkout;
 
 import com.store.BaseTest;
+import com.store.factory.UserFactory;
 import com.store.model.Order;
 import com.store.model.Product;
-import com.store.page.cart.CartPage;
+import com.store.page.cart.checkout.CheckoutPage;
 import com.store.page.category.product.ProductPage;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-//TODO
+
 public class CheckoutTest extends BaseTest {
 
-    private Order order;
+    private Order expectedOrder;
 
     @Test
     public void shouldCheckout() {
-        order = new Order(new ArrayList<>());
+        expectedOrder = new Order(new ArrayList<>());
+
         for (int i = 0; i < 4; i++) {
-            dooo();
+            addRandomProducts();
         }
-        CartPage cartPage = menu.goToCartPage()
-                .assertCart(order);
+        CheckoutPage checkoutPage = menu.goToCartPage()
+                .assertCart(expectedOrder)
+                .clickContinueButton()
+                .fillFormWithUserDetails(UserFactory.createRandomUser());
 
-        //Order cartOrder = new Order(
-        //        cartPage.mapTableRowsToObjects().getProducts());
-
-        //Assertions.assertEquals(cartOrder, order);
-        //Assertions.assertTrue(order.getProducts().containsAll(cartOrder.getProducts()) && cartOrder.getProducts().containsAll(order.getProducts()));
-
-        cartPage.clickContinueButton();
+        expectedOrder.setShippingPrice(checkoutPage.getShippingCost());
+        checkoutPage.assertCosts(expectedOrder)
+                .clickPurchaseButton()
+                .assertTransactionSummaryPage(expectedOrder);
     }
 
-    private void dooo() {
+    private ProductPage addRandomProducts() {
         int random = ThreadLocalRandom.current().nextInt(1, 5);
 
         ProductPage productPage = menu.goToRandomCategory()
                 .goToRandomProductPageAndAssertItSwitchedCorrectly();
-        addToOrder(productPage.getProductName(), productPage.getProductPrice(), random);
+        addToExpectedOrder(productPage.getProductName(), productPage.getProductPrice(), random);
 
-        productPage.addProductXtimes(random);
+        return productPage.addProductXtimes(random);
     }
 
-    private void addToOrder(String productName, BigDecimal price, int quantity) {
+    private void addToExpectedOrder(String productName, BigDecimal price, int quantity) {
 
         for (int i = 0; i < quantity; i++) {
-            order.addProduct(new Product(productName, price));
+            expectedOrder.addProduct(new Product(productName, price));
         }
     }
 }

@@ -1,8 +1,10 @@
 package com.store.page.cart.checkout;
 
+import com.store.factory.PageObjectFactory;
 import com.store.model.Order;
 import com.store.model.User;
 import com.store.page.WebElementManipulator;
+import com.store.page.cart.summary.TransactionSummaryPage;
 import com.store.page.menu.MenuPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -79,16 +81,17 @@ public class CheckoutPage extends WebElementManipulator<CheckoutPage> {
         return this;
     }
 
-    public void clickPurchaseButton() {
+    public TransactionSummaryPage clickPurchaseButton() {
         clickElement(purchaseButton);
+        return PageObjectFactory.createTransactionSummaryPage(driver);
     }
-    
+
     public CheckoutPage assertCosts(Order expectedOrder) {
         return assertEquals(expectedOrder.getOrderPrice(), getItemCost())
                 .assertEquals(expectedOrder.getOrderPriceWithShipping(), getTotalPrice());
     }
 
-    public CheckoutPage fillFormWithUserDetails(User user) throws InterruptedException {
+    public CheckoutPage fillFormWithUserDetails(User user) {
         waitForElementToBeVisible(sameAsBillingAddressCheckBox);
         return selectDropdownByVisibleText(shippingCountrySelect, user.getCountry())
                 .clickElementAndWaitToBeVisible(calculateShippingButton, priceSummaryTable)
@@ -100,8 +103,7 @@ public class CheckoutPage extends WebElementManipulator<CheckoutPage> {
                 .sendKeys(stateInput, user.getState())
                 .selectDropdownByVisibleText(countrySelect, user.getCountry())
                 .sendKeys(phoneInput, user.getPhone())
-                .clickElementAndWaitToBeInvisible(sameAsBillingAddressCheckBox, shippingAddressContent)
-                .clickElement(purchaseButton);
+                .clickElementAndWaitToBeInvisible(sameAsBillingAddressCheckBox, shippingAddressContent);
     }
 
     public BigDecimal getShippingCost() {
@@ -119,6 +121,4 @@ public class CheckoutPage extends WebElementManipulator<CheckoutPage> {
     private BigDecimal getTotalPrice() {
         return new BigDecimal(totalPrice.getText().replaceAll("[$,]", ""));
     }
-
-
 }

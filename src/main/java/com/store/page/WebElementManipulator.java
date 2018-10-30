@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 //TODO LOGGER
 public abstract class WebElementManipulator<T extends WebElementManipulator> extends BasePage<T> {
 
-    private static Logger LOG = Logger.getLogger(WebElementManipulator.class.getName());
+    private static final Logger LOG = Logger.getLogger(WebElementManipulator.class.getName());
 
     protected WebElementManipulator(WebDriver driver, WebDriverWait wait, Actions actions) {
         super(driver, wait, actions);
@@ -27,7 +27,7 @@ public abstract class WebElementManipulator<T extends WebElementManipulator> ext
         return getThis();
     }
 
-    protected T selectDropdownByVisibleText(WebElement selectElement, String text) throws InterruptedException {
+    protected T selectDropdownByVisibleText(WebElement selectElement, String text) {
         new Select(selectElement).selectByVisibleText(text);
         return getThis();
     }
