@@ -8,6 +8,7 @@ import com.store.page.menu.MenuPage;
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;

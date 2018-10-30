@@ -1,5 +1,6 @@
 package com.store.page.menu;
 
+import com.annotations.WaitUntilVisible;
 import com.store.factory.PageObjectFactory;
 import com.store.page.WebElementManipulator;
 import com.store.page.cart.CartPage;
@@ -22,6 +23,7 @@ public class MenuPage extends WebElementManipulator<MenuPage> {
     @FindBy(css = "#menu-item-33 .menu-item")
     private List<WebElement> productCategories;
 
+    @WaitUntilVisible
     @FindBy(css = "#menu-item-33")
     private WebElement productCategoryButton;
 
@@ -31,6 +33,7 @@ public class MenuPage extends WebElementManipulator<MenuPage> {
     @FindBy(css = "#menu-item-35")
     private WebElement iMacsCategoryButton;
 
+    @WaitUntilVisible
     @FindBy(css = "#header_cart")
     private WebElement cart;
 

@@ -1,5 +1,6 @@
 package com.store.page.cart.checkout;
 
+import com.annotations.WaitUntilVisible;
 import com.store.factory.PageObjectFactory;
 import com.store.model.Order;
 import com.store.model.User;
@@ -22,21 +23,27 @@ public class CheckoutPage extends WebElementManipulator<CheckoutPage> {
 
     private MenuPage menu;
 
+    @WaitUntilVisible
     @FindBy(css = "#wpsc_checkout_form_9")
     private WebElement emailInput;
 
+    @WaitUntilVisible
     @FindBy(css = "#wpsc_checkout_form_2")
     private WebElement firstnameInput;
 
+    @WaitUntilVisible
     @FindBy(css = "#wpsc_checkout_form_3")
     private WebElement lastnameInput;
 
+    @WaitUntilVisible
     @FindBy(css = "#wpsc_checkout_form_4")
     private WebElement addressInput;
 
+    @WaitUntilVisible
     @FindBy(css = "#wpsc_checkout_form_5")
     private WebElement cityInput;
 
+    @WaitUntilVisible
     @FindBy(css = "#wpsc_checkout_form_6")
     private WebElement stateInput;
 
@@ -46,12 +53,15 @@ public class CheckoutPage extends WebElementManipulator<CheckoutPage> {
     @FindBy(css = "#wpsc_checkout_form_7")
     private WebElement countrySelect;
 
+    @WaitUntilVisible
     @FindBy(css = "#wpsc_checkout_form_18")
     private WebElement phoneInput;
 
+    @WaitUntilVisible
     @FindBy(css = "#change_country input[type='submit']")
     private WebElement calculateShippingButton;
 
+    @WaitUntilVisible
     @FindBy(css = "#shippingSameBilling")
     private WebElement sameAsBillingAddressCheckBox;
 
@@ -70,6 +80,7 @@ public class CheckoutPage extends WebElementManipulator<CheckoutPage> {
     @FindBy(xpath = "//*[contains(text(), 'Total Price')]/following-sibling::*")
     private WebElement totalPrice;
 
+    @WaitUntilVisible
     @FindBy(css = "input[value='Purchase']")
     private WebElement purchaseButton;
 
@@ -77,6 +88,7 @@ public class CheckoutPage extends WebElementManipulator<CheckoutPage> {
         super(driver, wait, actions);
         this.menu = menu;
         PageFactory.initElements(driver, this);
+        waitUntilPageLoads();
     }
 
     public TransactionSummaryPage clickPurchaseButton() {
@@ -90,7 +102,6 @@ public class CheckoutPage extends WebElementManipulator<CheckoutPage> {
     }
 
     public CheckoutPage fillFormWithUserDetails(User user) {
-        waitForElementToBeVisible(sameAsBillingAddressCheckBox);
         return selectDropdownByVisibleText(shippingCountrySelect, user.getCountry())
                 .clickElementAndWaitToBeVisible(calculateShippingButton, priceSummaryTable)
                 .sendKeys(emailInput, user.getEmail())

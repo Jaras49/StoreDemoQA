@@ -1,5 +1,6 @@
 package com.store.page.category;
 
+import com.annotations.WaitUntilVisible;
 import com.store.factory.PageObjectFactory;
 import com.store.page.WebElementManipulator;
 import com.store.page.category.product.ProductPage;
@@ -22,6 +23,10 @@ public class CategoryPage extends WebElementManipulator<CategoryPage> {
 
     private MenuPage menu;
 
+    @WaitUntilVisible
+    @FindBy(css = "#content[role='main']")
+    private WebElement content;
+
     @FindBy(css = "#content  h2 > a")
     private List<WebElement> products;
 
@@ -29,6 +34,7 @@ public class CategoryPage extends WebElementManipulator<CategoryPage> {
         super(driver, wait, actions);
         this.menu = menuPage;
         PageFactory.initElements(driver, this);
+        waitUntilPageLoads();
     }
 
     public ProductPage goToRandomProductPageAndAssertItSwitchedCorrectly() {

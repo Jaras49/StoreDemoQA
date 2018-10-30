@@ -1,5 +1,6 @@
 package com.store.page.cart.summary;
 
+import com.annotations.WaitUntilVisible;
 import com.store.model.Order;
 import com.store.model.Product;
 import com.store.page.WebElementManipulator;
@@ -35,6 +36,7 @@ public class TransactionSummaryPage extends WebElementManipulator<TransactionSum
     @FindBy(css = ".wpsc-purchase-log-transaction-results > tbody > tr")
     private List<WebElement> productsTableRows;
 
+    @WaitUntilVisible
     @FindBy(xpath = "//p[contains(text(), 'Total Shipping')]")
     private WebElement totalShippingPrice;
 
@@ -42,6 +44,7 @@ public class TransactionSummaryPage extends WebElementManipulator<TransactionSum
         super(driver, wait, actions);
         this.menu = menuPage;
         PageFactory.initElements(driver, this);
+        waitUntilPageLoads();
     }
 
     public TransactionSummaryPage assertTransactionSummaryPage(Order expectedOrder) {

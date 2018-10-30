@@ -1,5 +1,6 @@
 package com.store.page.category.product;
 
+import com.annotations.WaitUntilVisible;
 import com.store.page.WebElementManipulator;
 import com.store.page.menu.MenuPage;
 import org.apache.log4j.Logger;
@@ -20,18 +21,22 @@ public class ProductPage extends WebElementManipulator<ProductPage> {
 
     private MenuPage menu;
 
+    @WaitUntilVisible
     @FindBy(css = ".prodtitle")
     private WebElement productTitle;
 
+    @WaitUntilVisible
     @FindBy(css = ".currentprice")
     private WebElement productPrice;
 
+    @WaitUntilVisible
     @FindBy(css = "input[type='submit']")
     private WebElement addToCartButton;
 
     @FindBy(css = ".alert.addtocart")
     private WebElement productAddedAlert;
 
+    @WaitUntilVisible
     @FindBy(css = "#header_cart .count")
     private WebElement numberOfCartItems;
 
@@ -39,6 +44,7 @@ public class ProductPage extends WebElementManipulator<ProductPage> {
         super(driver, wait, actions);
         this.menu = menuPage;
         PageFactory.initElements(driver, this);
+        waitUntilPageLoads();
     }
 
     public ProductPage addProductXtimes(int timesToAddProduct) {

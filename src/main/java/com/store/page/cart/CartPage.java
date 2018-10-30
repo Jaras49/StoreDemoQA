@@ -1,5 +1,6 @@
 package com.store.page.cart;
 
+import com.annotations.WaitUntilVisible;
 import com.store.factory.PageObjectFactory;
 import com.store.model.Order;
 import com.store.model.Product;
@@ -33,12 +34,14 @@ public class CartPage extends WebElementManipulator<CartPage> {
 
     private MenuPage menu;
 
+    @WaitUntilVisible
     @FindBy(css = ".yourtotal .pricedisplay")
     private WebElement totalCartPrice;
 
     @FindBy(css = ".checkout_cart tr.product_row")
     private List<WebElement> products;
 
+    @WaitUntilVisible
     @FindBy(css = ".step2")
     private WebElement continueButton;
 
@@ -46,6 +49,7 @@ public class CartPage extends WebElementManipulator<CartPage> {
         super(driver, wait, actions);
         this.menu = menuPage;
         PageFactory.initElements(driver, this);
+        waitUntilPageLoads();
     }
 
     public MenuPage getMenu() {
