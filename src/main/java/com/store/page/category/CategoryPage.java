@@ -4,6 +4,7 @@ import com.store.factory.PageObjectFactory;
 import com.store.page.WebElementManipulator;
 import com.store.page.category.product.ProductPage;
 import com.store.page.menu.MenuPage;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -17,6 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class CategoryPage extends WebElementManipulator<CategoryPage> {
 
     private static final String REAMOVE_DASHES_REGEX = "\\p{Pd}";
+    private static final Logger LOG = Logger.getLogger(CategoryPage.class);
 
     private MenuPage menu;
 
@@ -27,11 +29,6 @@ public class CategoryPage extends WebElementManipulator<CategoryPage> {
         super(driver, wait, actions);
         this.menu = menuPage;
         PageFactory.initElements(driver, this);
-    }
-
-    @Override
-    protected CategoryPage getThis() {
-        return this;
     }
 
     public ProductPage goToRandomProductPageAndAssertItSwitchedCorrectly() {
@@ -50,5 +47,15 @@ public class CategoryPage extends WebElementManipulator<CategoryPage> {
 
     public MenuPage getMenu() {
         return menu;
+    }
+
+    @Override
+    protected CategoryPage getThis() {
+        return this;
+    }
+
+    @Override
+    protected Logger getLogger() {
+        return LOG;
     }
 }

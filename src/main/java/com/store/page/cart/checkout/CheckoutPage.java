@@ -6,6 +6,7 @@ import com.store.model.User;
 import com.store.page.WebElementManipulator;
 import com.store.page.cart.summary.TransactionSummaryPage;
 import com.store.page.menu.MenuPage;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -16,6 +17,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.math.BigDecimal;
 
 public class CheckoutPage extends WebElementManipulator<CheckoutPage> {
+
+    private static final Logger LOG = Logger.getLogger(CheckoutPage.class);
 
     private MenuPage menu;
 
@@ -76,11 +79,6 @@ public class CheckoutPage extends WebElementManipulator<CheckoutPage> {
         PageFactory.initElements(driver, this);
     }
 
-    @Override
-    protected CheckoutPage getThis() {
-        return this;
-    }
-
     public TransactionSummaryPage clickPurchaseButton() {
         clickElement(purchaseButton);
         return PageObjectFactory.createTransactionSummaryPage(driver);
@@ -120,5 +118,15 @@ public class CheckoutPage extends WebElementManipulator<CheckoutPage> {
 
     private BigDecimal getTotalPrice() {
         return new BigDecimal(totalPrice.getText().replaceAll("[$,]", ""));
+    }
+
+    @Override
+    protected CheckoutPage getThis() {
+        return this;
+    }
+
+    @Override
+    protected Logger getLogger() {
+        return LOG;
     }
 }

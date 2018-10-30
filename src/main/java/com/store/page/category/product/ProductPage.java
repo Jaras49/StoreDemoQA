@@ -2,6 +2,7 @@ package com.store.page.category.product;
 
 import com.store.page.WebElementManipulator;
 import com.store.page.menu.MenuPage;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -12,6 +13,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.math.BigDecimal;
 
 public class ProductPage extends WebElementManipulator<ProductPage> {
+
+    private static final Logger LOG = Logger.getLogger(ProductPage.class);
 
     private static final String REMOVE_DASHES_REGEX = "\\p{Pd}";
 
@@ -36,11 +39,6 @@ public class ProductPage extends WebElementManipulator<ProductPage> {
         super(driver, wait, actions);
         this.menu = menuPage;
         PageFactory.initElements(driver, this);
-    }
-
-    @Override
-    protected ProductPage getThis() {
-        return this;
     }
 
     public ProductPage addProductXtimes(int timesToAddProduct) {
@@ -76,5 +74,15 @@ public class ProductPage extends WebElementManipulator<ProductPage> {
 
     private int getNumberOfCartItems() {
         return Integer.parseInt(numberOfCartItems.getText());
+    }
+
+    @Override
+    protected ProductPage getThis() {
+        return this;
+    }
+
+    @Override
+    protected Logger getLogger() {
+        return LOG;
     }
 }

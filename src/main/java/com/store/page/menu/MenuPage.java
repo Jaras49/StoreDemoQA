@@ -4,6 +4,7 @@ import com.store.factory.PageObjectFactory;
 import com.store.page.WebElementManipulator;
 import com.store.page.cart.CartPage;
 import com.store.page.category.CategoryPage;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -15,6 +16,8 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MenuPage extends WebElementManipulator<MenuPage> {
+
+    private static final Logger LOG = Logger.getLogger(MenuPage.class);
 
     @FindBy(css = "#menu-item-33 .menu-item")
     private List<WebElement> productCategories;
@@ -36,11 +39,6 @@ public class MenuPage extends WebElementManipulator<MenuPage> {
         PageFactory.initElements(driver, this);
     }
 
-    @Override
-    protected MenuPage getThis() {
-        return this;
-    }
-
     public CategoryPage goToAccessoriesCategory() {
         hoverOverElement(productCategoryButton)
                 .clickElement(accessoriesCategoryButton);
@@ -58,5 +56,15 @@ public class MenuPage extends WebElementManipulator<MenuPage> {
         hoverOverElement(productCategoryButton)
                 .clickElement(productCategories.get(random));
         return PageObjectFactory.createCategoryPage(driver);
+    }
+
+    @Override
+    protected MenuPage getThis() {
+        return this;
+    }
+
+    @Override
+    protected Logger getLogger() {
+        return LOG;
     }
 }

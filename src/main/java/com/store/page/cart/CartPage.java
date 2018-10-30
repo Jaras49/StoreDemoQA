@@ -6,6 +6,7 @@ import com.store.model.Product;
 import com.store.page.WebElementManipulator;
 import com.store.page.cart.checkout.CheckoutPage;
 import com.store.page.menu.MenuPage;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,6 +22,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CartPage extends WebElementManipulator<CartPage> {
+
+    private static final Logger LOG = Logger.getLogger(CartPage.class);
 
     private static final String REMOVE_DASHES_REGEX = "\\p{Pd}";
     private static final String PRODUCT_QUANTITY_SELECTOR = ".wpsc_product_quantity input[name='quantity']";
@@ -45,11 +48,6 @@ public class CartPage extends WebElementManipulator<CartPage> {
         PageFactory.initElements(driver, this);
     }
 
-    @Override
-    protected CartPage getThis() {
-        return this;
-    }
-
     public MenuPage getMenu() {
         return menu;
     }
@@ -58,13 +56,13 @@ public class CartPage extends WebElementManipulator<CartPage> {
         clickElement(continueButton);
         return PageObjectFactory.createCheckoutPage(driver);
     }
+
     public CartPage assertCart(Order expectedOrder) {
         Order actualOrder = mapTableRowsToObjects();
         return assertEquals(expectedOrder, actualOrder)
                 .assertProductTotalPrices()
                 .assertEquals(expectedOrder.getOrderPrice(), getTotalPrice());
     }
-
     private CartPage assertProductTotalPrices() {
         products.stream()
                 .forEach(product -> {
@@ -113,5 +111,15 @@ public class CartPage extends WebElementManipulator<CartPage> {
 
     private String getProductName(WebElement product) {
         return product.findElement(By.cssSelector(PRODUCT_NAME_SELECTOR)).getText().replaceAll(REMOVE_DASHES_REGEX, "");
+    }
+
+    @Override
+    protected CartPage getThis() {
+        return this;
+    }
+
+    @Override
+    protected Logger getLogger() {
+        return LOG;
     }
 }

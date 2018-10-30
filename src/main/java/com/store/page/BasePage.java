@@ -1,5 +1,6 @@
 package com.store.page;
 
+import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,6 +20,8 @@ public abstract class BasePage<T extends BasePage> {
         this.actions = actions;
     }
 
+    protected abstract Logger getLogger();
+
     protected abstract T getThis();
 
     public <M> T assertEquals(M expected, M actual) {
@@ -37,14 +40,17 @@ public abstract class BasePage<T extends BasePage> {
     }
 
     protected WebElement waitForElementToBeVisible(WebElement element) {
+        getLogger().info("Waiting for element to become visible - " + element.getText() );
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
     protected void waitForElementToBeInvisible(WebElement element) {
+        getLogger().info("Waiting for element to become invisible - " + element.getText());
         wait.until(ExpectedConditions.invisibilityOf(element));
     }
 
     protected T waitForElementTextUpdate(WebElement element, String textToBe) {
+        getLogger().info("Waiting for element - " + element.getText() + " to " + textToBe);
         wait.until(ExpectedConditions.textToBePresentInElement(element, textToBe));
         return getThis();
     }

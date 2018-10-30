@@ -5,6 +5,7 @@ import com.store.model.Product;
 import com.store.page.WebElementManipulator;
 import com.store.page.menu.MenuPage;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,6 +21,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TransactionSummaryPage extends WebElementManipulator<TransactionSummaryPage> {
+
+    private static final Logger LOG = Logger.getLogger(TransactionSummaryPage.class);
 
     private static final String REPLACE_DASHES_REGEX = "\\p{Pd}";
     private static final String PRODUCT_NAME_SELECTOR = "td:first-of-type";
@@ -97,5 +100,10 @@ public class TransactionSummaryPage extends WebElementManipulator<TransactionSum
     @Override
     protected TransactionSummaryPage getThis() {
         return this;
+    }
+
+    @Override
+    protected Logger getLogger() {
+        return LOG;
     }
 }
