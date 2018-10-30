@@ -18,7 +18,7 @@ public class UserFactory {
                         "address" + generateRandomString(LENGHT),
                         "city" + generateRandomString(LENGHT),
                         "state" + generateRandomString(LENGHT),
-                        "country" + generateRandomString(LENGHT),
+                        "Poland",
                         generateRandomNumber(LENGHT));
     }
 

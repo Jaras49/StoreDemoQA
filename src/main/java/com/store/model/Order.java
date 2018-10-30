@@ -29,7 +29,11 @@ public final class Order {
     public BigDecimal getOrderPrice() {
         return products.stream()
                 .map(Product::getTotalPrice)
-                .reduce(shippingPrice, BigDecimal::add);
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public BigDecimal getOrderPriceWithShipping() {
+        return getOrderPrice().add(shippingPrice);
     }
 
     public List<Product> getProducts() {
