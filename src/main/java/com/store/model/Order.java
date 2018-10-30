@@ -12,7 +12,7 @@ public final class Order {
         this.products = products;
     }
 
-    public void addProduct (Product product) {
+    public void addProduct(Product product) {
         products.add(product);
     }
 
@@ -20,6 +20,10 @@ public final class Order {
         return products.stream()
                 .map(Product::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public List<Product> getProducts() {
+        return products;
     }
 
     @Override
