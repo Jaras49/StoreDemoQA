@@ -52,7 +52,7 @@ public class CheckoutTest extends BaseTest {
     private void addToExpectedOrder(String productName, BigDecimal price, int quantity) {
 
         for (int i = 0; i < quantity; i++) {
-            LOG.info("ADDING PRODUCT TO EXPECTED ORDER, CURRENT PRODUCTS " + expectedOrder.getProducts().size());
+            LOG.info("ADDING PRODUCT TO EXPECTED ORDER");
             expectedOrder.addProduct(new Product(productName, price));
         }
     }

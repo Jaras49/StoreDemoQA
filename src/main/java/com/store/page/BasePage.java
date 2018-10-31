@@ -1,6 +1,7 @@
 package com.store.page;
 
 import com.annotations.WaitUntilVisible;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebDriver;
@@ -45,23 +46,27 @@ public abstract class BasePage<T extends BasePage> {
     }
 
     protected WebElement waitForElementToBeVisible(WebElement element) {
-        getLogger().info("Waiting for element to become visible - " + element.getText());
+        getLogger().info("Waiting for element to become visible - " + convertElementToText(element));
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
     protected void waitForElementToBeInvisible(WebElement element) {
-        getLogger().info("Waiting for element to become invisible - " + element.getText());
+        getLogger().info("Waiting for element to become invisible - " + convertElementToText(element));
         wait.until(ExpectedConditions.invisibilityOf(element));
     }
 
     protected T waitForElementTextUpdate(WebElement element, String textToBe) {
-        getLogger().info("Waiting for element - " + element.getText() + " to " + textToBe);
+        getLogger().info("Waiting for element - " + convertElementToText(element) + " to " + textToBe);
         wait.until(ExpectedConditions.textToBePresentInElement(element, textToBe));
         return getThis();
     }
 
     protected void waitUntilPageLoads() {
         wait.until(ExpectedConditions.visibilityOfAllElements(getFieldsAnnotatedWithWaitForVisible()));
+    }
+
+    protected String convertElementToText(WebElement element) {
+        return StringUtils.substringAfterLast(element.toString(), "->").trim();
     }
 
     private List<WebElement> getFieldsAnnotatedWithWaitForVisible() {

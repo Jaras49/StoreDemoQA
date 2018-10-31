@@ -13,41 +13,39 @@ public abstract class WebElementManipulator<T extends WebElementManipulator> ext
     }
 
     protected T hoverOverElement(WebElement element) {
-        getLogger().info("Hovering to element - " + element.getText());
+        getLogger().info("Hovering to element - " + convertElementToText(element));
         actions.moveToElement(element).perform();
         return getThis();
     }
 
     protected T sendKeys(WebElement element, String keysToSend) {
-        getLogger().info("Sending keys: " +  keysToSend + " to element - " + element.getText());
+        getLogger().info("Sending keys: " +  keysToSend + " to element - " + convertElementToText(element));
         element.sendKeys(keysToSend);
         return getThis();
     }
 
     protected T selectDropdownByVisibleText(WebElement selectElement, String text) {
-        getLogger().info("Selecting dropdown by visible text: " + text + " in element " + selectElement.getText());
+        getLogger().info("Selecting dropdown by visible text: " + text + " in element " + convertElementToText(selectElement));
         new Select(selectElement).selectByVisibleText(text);
         return getThis();
     }
 
     protected T clickElementAndWaitToBeVisible(WebElement toClick, WebElement toBeVisible) {
-        getLogger().info("Clicking element - " + toClick.getText());
+        getLogger().info("Clicking element - " + convertElementToText(toClick));
         toClick.click();
-        getLogger().info("Waiting for element to become visible - " + toBeVisible.getText());
         waitForElementToBeVisible(toBeVisible);
         return getThis();
     }
 
     protected T clickElementAndWaitToBeInvisible(WebElement toClick, WebElement toBeInvisible) {
-        getLogger().info("Clicking element - " + toClick.getText());
+        getLogger().info("Clicking element - " + convertElementToText(toClick));
         toClick.click();
-        getLogger().info("Waiting for element to become invisible - " + toBeInvisible.getText());
         waitForElementToBeInvisible(toBeInvisible);
         return getThis();
     }
 
     protected T clickElement(WebElement element) {
-        getLogger().info("Clicking element - "  + element.getText());
+        getLogger().info("Clicking element - "  + convertElementToText(element));
         element.click();
         return getThis();
     }
