@@ -36,10 +36,6 @@ public class ProductPage extends WebElementManipulator<ProductPage> {
     @FindBy(css = ".alert.addtocart")
     private WebElement productAddedAlert;
 
-    @WaitUntilVisible
-    @FindBy(css = "#header_cart .count")
-    private WebElement numberOfCartItems;
-
     public ProductPage(WebDriver driver, WebDriverWait wait, Actions actions, MenuPage menuPage) {
         super(driver, wait, actions);
         this.menu = menuPage;
@@ -69,17 +65,13 @@ public class ProductPage extends WebElementManipulator<ProductPage> {
 
     private void addProduct() {
         clickElementAndWaitToBeVisible(addToCartButton, productAddedAlert)
-                .waitForElementTextUpdate(numberOfCartItems, expectedCartText());
+                .waitForElementTextUpdate(menu.getNumberOfCartItemsWebElement(), expectedCartText());
     }
 
     private String expectedCartText() {
-        int currentCartProducts = getNumberOfCartItems();
+        int currentCartProducts = menu.getNumberOfCartItems();
         int expectedCartProducts = currentCartProducts + 1;
         return String.valueOf(expectedCartProducts);
-    }
-
-    private int getNumberOfCartItems() {
-        return Integer.parseInt(numberOfCartItems.getText());
     }
 
     @Override

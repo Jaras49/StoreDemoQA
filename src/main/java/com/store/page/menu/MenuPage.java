@@ -37,9 +37,14 @@ public class MenuPage extends WebElementManipulator<MenuPage> {
     @FindBy(css = "#header_cart")
     private WebElement cart;
 
+    @WaitUntilVisible
+    @FindBy(css = "#header_cart .count")
+    private WebElement numberOfCartItems;
+
     public MenuPage(WebDriver driver, WebDriverWait wait, Actions actions) {
         super(driver, wait, actions);
         PageFactory.initElements(driver, this);
+        waitUntilPageLoads();
     }
 
     public CategoryPage goToAccessoriesCategory() {
@@ -59,6 +64,14 @@ public class MenuPage extends WebElementManipulator<MenuPage> {
         hoverOverElement(productCategoryButton)
                 .clickElement(productCategories.get(random));
         return PageObjectFactory.createCategoryPage(driver);
+    }
+
+    public int getNumberOfCartItems() {
+        return Integer.parseInt(numberOfCartItems.getText());
+    }
+
+    public WebElement getNumberOfCartItemsWebElement() {
+        return numberOfCartItems;
     }
 
     @Override
