@@ -26,6 +26,12 @@ public abstract class BasePage<T extends BasePage> {
         this.actions = actions;
     }
 
+    BasePage(WebDriver driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, 15);
+        this.actions = new Actions(driver);
+    }
+
     protected abstract Logger getLogger();
 
     protected abstract T getThis();
