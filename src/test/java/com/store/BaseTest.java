@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogType;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,9 +52,16 @@ public abstract class BaseTest {
     public void tearDown() throws IOException {
         getLogger().info("FINISHED TEST");
         getLogger().info("LAST URL " + driver.getCurrentUrl());
+        printBrowserLogs();
         takeScreenshot();
 
         driver.quit();
+    }
+
+    private void printBrowserLogs() {
+        getLogger().debug("BROWSER LOGS:");
+        LogEntries logEntries = driver.manage().logs().get(LogType.BROWSER);
+        logEntries.forEach(n -> getLogger().info(n));
     }
 
     private void takeScreenshot() throws IOException {
