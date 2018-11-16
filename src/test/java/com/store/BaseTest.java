@@ -10,6 +10,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogType;
@@ -59,9 +60,13 @@ public abstract class BaseTest {
     }
 
     private void printBrowserLogs() {
-        getLogger().debug("BROWSER LOGS:");
-        LogEntries logEntries = driver.manage().logs().get(LogType.BROWSER);
-        logEntries.forEach(n -> getLogger().info(n));
+        try {
+            getLogger().debug("BROWSER LOGS:");
+            LogEntries logEntries = driver.manage().logs().get(LogType.BROWSER);
+            logEntries.forEach(n -> getLogger().info(n));
+        } catch (UnsupportedCommandException ex) {
+            getLogger().warn("GET BROWSER LOGS COMMAND IS NOT SUPPORTED BY CURRENT DRIVER");
+        }
     }
 
     private void takeScreenshot() throws IOException {
