@@ -3,10 +3,10 @@ package com.factory.driver;
 import com.properties.TestProperties;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
@@ -41,7 +41,7 @@ public class DriverFactory {
             case GRID_CHROME:
                 gridAddress = TestProperties.getProperty(GRID_IP_PROPERTY);
 
-                return new RemoteWebDriver(new URL(gridAddress), DesiredCapabilities.chrome());
+                return new RemoteWebDriver(new URL(gridAddress), new ChromeOptions());
             case GRID_FIREFOX:
                 gridAddress = TestProperties.getProperty(GRID_IP_PROPERTY);
 
