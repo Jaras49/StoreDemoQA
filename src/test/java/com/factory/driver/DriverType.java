@@ -3,7 +3,9 @@ package com.factory.driver;
 public enum DriverType {
     CHROME("chrome"),
     FIREFOX("firefox"),
-    EDGE("edge");
+    EDGE("edge"),
+    GRID_CHROME("grid.chrome"),
+    GRID_FIREFOX("grid.firefox");
 
     private String name;
 
