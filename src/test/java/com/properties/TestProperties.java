@@ -13,6 +13,16 @@ public class TestProperties {
     private static Properties INSTANCE;
 
     public static synchronized String getProperty(String propertyName) {
+        loadPropertiesFile();
+        return INSTANCE.getProperty(propertyName);
+    }
+
+    public static synchronized void setProperty(String propertyName, String value) {
+        loadPropertiesFile();
+        INSTANCE.setProperty(propertyName, value);
+    }
+
+    private static void loadPropertiesFile() {
         if (INSTANCE == null) {
             INSTANCE = new Properties();
         }
@@ -21,6 +31,5 @@ public class TestProperties {
         } catch (IOException ex) {
             LOG.error("FAILED TO LOAD TEST PROPERTIES FILE", ex);
         }
-        return INSTANCE.getProperty(propertyName);
     }
 }
